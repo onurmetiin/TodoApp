@@ -2,21 +2,83 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h2 class="page title">
-                    <img src="assets/svg/file.svg">
-                    ToDo List App Ders:12 / 05.41
+                <h2 class="page-title">
+                    <img class="svg" src="assets/svg/file.svg">
+                    <span>ToDo List App</span>
                 </h2>
             </div>
             <div class="col-md-6">
                 <form class="example-form">
                     <mat-form-field class="example-full-width">
-                      <mat-label>Favorite food</mat-label>
-                      <input matInput placeholder="Yapılacak yeni madde ekle ">
+                      <mat-label>Yapılacaklar listesine yeni madde ekle</mat-label>
+                      <input matInput placeholder="Yapılacak eylemi giriniz " #newTodo>
                     </mat-form-field>
-                    <button mat-raised-button color="primary">Ekle +</button>
+                    <button mat-raised-button color="primary" type="button" (click)="addToDo(newTodo)" >Ekle</button>
                   </form>
                   
             </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-12">
+                <mat-card class="d-flex">
+                    <div class="example-container">
+                        <h3><b>Bekleyenler</b></h3>
+                      
+                        <div
+                          cdkDropList
+                          #pendingList="cdkDropList"
+                          [cdkDropListData]="data.pending"
+                          [cdkDropListConnectedTo]="[processList]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          <div class="example-box" *ngFor="let item of data.pending" cdkDrag>
+                            <img class="svg" src="assets/svg/clock.svg" alt="">
+                            {{item}}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="example-container">
+                        <h3><b>Yapım Aşamasında Olanlar</b></h3>
+                      
+                        <div
+                          cdkDropList
+                          #processList="cdkDropList"
+                          [cdkDropListData]="data.inProcess"
+                          [cdkDropListConnectedTo]="[pendingList, doneList]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          <div class="example-box" *ngFor="let item of data.inProcess" cdkDrag>
+                            <img class="svg" src="assets/svg/hourglass.svg" alt="">
+                            {{item}}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div class="example-container">
+                        <h3><b>Tamamlananlar</b></h3>
+                      
+                        <div
+                          cdkDropList
+                          #doneList="cdkDropList"
+                          [cdkDropListData]="data.done"
+                          [cdkDropListConnectedTo]="[processList]"
+                          class="example-list"
+                          (cdkDropListDropped)="drop($event)">
+                          <div class="example-box" *ngFor="let item of data.done" cdkDrag>
+                            <img class="svg" src="assets/svg/like.svg" alt="">
+                            {{item}}
+                          </div>
+                        </div>
+                      </div>
+                      
+                </mat-card>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 text-center mt-2">
+            <small>Copyright &copy; 2021 ToDo List App</small>
+          </div>
         </div>
     </div>
 </div>
